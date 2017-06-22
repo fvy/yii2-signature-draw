@@ -7,59 +7,59 @@ Copyright (c) 2011 Willow Systems Corp http://willow-systems.com
 MIT License <http://www.opensource.org/licenses/mit-license.php>
 */
 
-;(function(){
+; (function () {
 
 	var apinamespace = 'jSignature'
 
 	function attachHandlers(buttonRenderer, apinamespace, extensionName) {
 		var $undoButton = buttonRenderer.call(this)
 
-		;(function(jSignatureInstance, $undoButton, apinamespace) {
-			jSignatureInstance.events.subscribe(
-				apinamespace + '.change'
-				, function(){
-					if (jSignatureInstance.dataEngine.data.length) {
-						$undoButton.show()
-					} else {
-						$undoButton.hide()
+			; (function (jSignatureInstance, $undoButton, apinamespace) {
+				jSignatureInstance.events.subscribe(
+					apinamespace + '.change'
+					, function () {
+						if (jSignatureInstance.dataEngine.data.length) {
+							$undoButton.show()
+						} else {
+							$undoButton.hide()
+						}
 					}
-				}
-			)
-		})( this, $undoButton, apinamespace )
+				)
+			})(this, $undoButton, apinamespace)
 
-		;(function(jSignatureInstance, $undoButton, apinamespace) {
+			; (function (jSignatureInstance, $undoButton, apinamespace) {
 
-			var eventName = apinamespace + '.undo'
+				var eventName = apinamespace + '.undo'
 
-			$undoButton.bind('click', function(){
-				jSignatureInstance.events.publish(eventName)
-			})
+				$undoButton.bind('click', function () {
+					jSignatureInstance.events.publish(eventName)
+				})
 
-			// This one creates new "undo" event listener to jSignature instance
-			// It handles the actual undo-ing.
-			jSignatureInstance.events.subscribe(
-				eventName
-				, function(){
-					var data = jSignatureInstance.dataEngine.data
-					if (data.length) {
-						data.pop()
-						jSignatureInstance.resetCanvas(data)
+				// This one creates new "undo" event listener to jSignature instance
+				// It handles the actual undo-ing.
+				jSignatureInstance.events.subscribe(
+					eventName
+					, function () {
+						var data = jSignatureInstance.dataEngine.data
+						if (data.length) {
+							data.pop()
+							jSignatureInstance.resetCanvas(data)
+						}
 					}
-				}
-			)
-		})( 
-			this
-			, $undoButton
-			, this.events.topics.hasOwnProperty( apinamespace + '.undo' ) ? 
-				// oops, seems some other plugin or code has already claimed "jSignature.undo" event
-				// we will use this extension's name for event name prefix
-				extensionName :
-				// Great! we will use 'jSignature' for event name prefix.
-				apinamespace
-		)
+				)
+			})(
+				this
+				, $undoButton
+				, this.events.topics.hasOwnProperty(apinamespace + '.undo') ?
+					// oops, seems some other plugin or code has already claimed "jSignature.undo" event
+					// we will use this extension's name for event name prefix
+					extensionName :
+					// Great! we will use 'jSignature' for event name prefix.
+					apinamespace
+				)
 	}
 
-	function ExtensionInitializer(extensionName){
+	function ExtensionInitializer(extensionName) {
 		// we are called very early in instance's life.
 		// right after the settings are resolved and 
 		// jSignatureInstance.events is created 
@@ -94,7 +94,7 @@ MIT License <http://www.opensource.org/licenses/mit-license.php>
 			apinamespace + '.attachingEventHandlers'
 			// event handlers, can pass args too, but in majority of cases,
 			// 'this' which is jSignatureClass object instance pointer is enough to get by.
-			, function(){
+			, function () {
 
 				// hooking up "undo" button	to lower edge of Canvas.
 				// but only when options passed to jSignature('init', options)
@@ -109,20 +109,20 @@ MIT License <http://www.opensource.org/licenses/mit-license.php>
 						// but when developler is OK with default look (and just passes "truthy" value)
 						// this defines default look for the button:
 						// centered against canvas, hanging on its lower side.
-						oursettings = function(){
+						oursettings = function () {
 							// this === jSignatureInstance 
-							var undoButtonSytle = 'position:absolute;display:none;margin:0 !important;top:auto'
-							, $undoButton = $('<input type="button" value="Undo last stroke" style="'+undoButtonSytle+'" />')
+
+							$undoButton = $('<button class="sign__button sign__button_undo" type="button">' + this.settings.undoText + '</button>')
 								.appendTo(this.$controlbarLower)
 
 							// this centers the button against the canvas.
 							var buttonWidth = $undoButton.width()
 							$undoButton.css(
 								'left'
-								, Math.round(( this.canvas.width - buttonWidth ) / 2)
+								, Math.round((this.canvas.width - buttonWidth) / 2)
 							)
 							// IE 7 grows the button. Correcting for that.
-							if ( buttonWidth !== $undoButton.width() ) {
+							if (buttonWidth !== $undoButton.width()) {
 								$undoButton.width(buttonWidth)
 							}
 
@@ -130,7 +130,7 @@ MIT License <http://www.opensource.org/licenses/mit-license.php>
 						}
 					}
 
-					attachHandlers.call( 
+					attachHandlers.call(
 						this
 						, oursettings
 						, apinamespace
@@ -141,25 +141,25 @@ MIT License <http://www.opensource.org/licenses/mit-license.php>
 		)
 	}
 
-	var ExtensionAttacher = function(){
+	var ExtensionAttacher = function () {
 		$.fn[apinamespace](
 			'addPlugin'
-			,'instance' // type of plugin
-			,'UndoButton' // extension name
-			,ExtensionInitializer
+			, 'instance' // type of plugin
+			, 'UndoButton' // extension name
+			, ExtensionInitializer
 		)
 	}
-	
 
-//  //Because plugins are minified together with jSignature, multiple defines per (minified) file blow up and dont make sense
-//	//Need to revisit this later.
-	
-//	if ( typeof define === "function" && define.amd != null) {
-//		// AMD-loader compatible resource declaration
-//		// you need to call this one with jQuery as argument.
-//		define(function(){return Initializer} )
-//	} else {
-		ExtensionAttacher()
-//	}
+
+	//  //Because plugins are minified together with jSignature, multiple defines per (minified) file blow up and dont make sense
+	//	//Need to revisit this later.
+
+	//	if ( typeof define === "function" && define.amd != null) {
+	//		// AMD-loader compatible resource declaration
+	//		// you need to call this one with jQuery as argument.
+	//		define(function(){return Initializer} )
+	//	} else {
+	ExtensionAttacher()
+	//	}
 
 })();
