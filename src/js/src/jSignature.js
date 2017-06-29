@@ -1110,7 +1110,7 @@ MIT License <http://www.opensource.org/licenses/mit-license.php>
 			);
 		}
 
-		$canvas.addClass('sign__' + apinamespace);
+        $canvas.addClass(apinamespace + ' sign__' + apinamespace);
 
 		// canvas's drawing area resolution is independent from canvas's size.
 		// pixels are just scaled up or down when internal resolution does not
