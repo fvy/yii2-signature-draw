@@ -768,7 +768,8 @@ MIT License <http://www.opensource.org/licenses/mit-license.php>
 		var canvas = this.canvas = this.initializeCanvas(settings)
 			, $canvas = $(canvas);
 
-		this.$controlbarLower = $('<div class="sign__controlbar ' + this.settings.controllBarBottomClass + '"></div>').appendTo($parent);
+        this.$controlbarLower = $('<div class="sign__controlbar ' + this.settings.controllBarBottomClass + '"></div>').appendTo('#signatureparent');
+        //this.$controlbarLower = $('<div class="sign__controlbar ' + this.settings.controllBarBottomClass + '"></div>').appendTo($parent);
 
 		this.canvasContext = canvas.getContext("2d");
 
