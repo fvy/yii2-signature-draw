@@ -112,7 +112,7 @@ MIT License <http://www.opensource.org/licenses/mit-license.php>
 						oursettings = function () {
 							// this === jSignatureInstance 
 
-							$undoButton = $('<button class="sign__button sign__button_undo" type="button">' + this.settings.undoText + '</button>')
+							$undoButton = $('<button class="sign__button sign__button_undo btn btn-primary btn-xs" type="button">' + this.settings.undoText + '</button>')
 								.appendTo(this.$controlbarLower)
 
 							// this centers the button against the canvas.
