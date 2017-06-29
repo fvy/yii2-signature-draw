@@ -1,6 +1,6 @@
 <?php
 
-namespace jberall\signaturedraw\assets;
+namespace fvy\signaturedraw\assets;
 
 use yii\web\AssetBundle;
 use yii\helpers\Url;

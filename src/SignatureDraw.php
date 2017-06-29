@@ -1,5 +1,5 @@
 <?php
-namespace jberall\signaturedraw;
+namespace fvy\signaturedraw;
 
 use Yii;
 use yii\base\Widget;

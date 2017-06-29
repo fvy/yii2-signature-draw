@@ -1,6 +1,6 @@
 <?php
 //contains all the relevant javascript files and positions.
-use jberall\signaturedraw\assets\SignatureDrawAsset;
+use fvy\signaturedraw\assets\SignatureDrawAsset;
 SignatureDrawAsset::register($this);
 
 //    $this->registerMetaTag(['name' => 'keywords', 'content' => 'yii, framework, php']);
